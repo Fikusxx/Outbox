@@ -41,15 +41,15 @@ app.MapGet("insert", async ([FromServices] AppDbContext db) =>
 
 app.MapGet("insert-many", async ([FromServices] AppDbContext db) =>
 {
-    var toAdd = new List<Outbox>(capacity: 10_000);
+    var toAdd = new List<Outbox>(capacity: 50_000);
     
-    for (long i = 1; i < 10_000; i++)
+    for (long i = 1; i < 50_000; i++)
     {
         var outbox = new Outbox
         {
             Id = i,
             Content = JsonSerializer.Serialize(new Model { Id = i, Content = "HELLO WORLD", Time = DateTimeOffset.UtcNow }),
-            Time = DateTimeOffset.UtcNow.AddSeconds(15).ToUnixTimeSeconds()
+            Time = DateTimeOffset.UtcNow.AddSeconds(30).ToUnixTimeSeconds()
         };
         toAdd.Add(outbox);
     }

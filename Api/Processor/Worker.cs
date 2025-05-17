@@ -45,7 +45,14 @@ internal sealed class Worker : BackgroundService
         
         while (ct.IsCancellationRequested == false && await timer.WaitForNextTickAsync(ct))
         {
-            await processor.ExecuteAsync(ct);
+            try
+            {
+                await processor.ExecuteAsync(ct);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Scheduling execution error.");
+            }
         }
     }
 }
